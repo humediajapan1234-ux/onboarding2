@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ライバーオンボーディングガイド | HUMEDIA japan.</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: #f5f4f0;
+  color: #1a1a1a;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+.guide { max-width: 480px; margin: 0 auto; padding: 12px; }
+.header {
+  text-align: center;
+  padding: 24px 16px 20px;
+  background: #fff;
+  border-radius: 14px;
+  border: 0.5px solid #e0ddd6;
+  margin-bottom: 14px;
+}
+.logo { font-size: 11px; color: #888; letter-spacing: 0.08em; margin-bottom: 8px; }
+.header h1 { font-size: 18px; font-weight: 600; color: #111; }
+.header p { font-size: 12px; color: #888; margin-top: 4px; }
+.toc { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.toc-group { width: 100%; }
+.toc-group-label { font-size: 10px; color: #aaa; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 5px; }
+.toc-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.toc-btn {
+  font-size: 11px; padding: 6px 12px;
+  border-radius: 20px;
+  border: 0.5px solid #d0cfc8;
+  color: #555;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+}
+.toc-btn:active { background: #f0efeb; }
+.section {
+  background: #fff;
+  border: 0.5px solid #e0ddd6;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.section-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.section-header:active { background: #f9f8f5; }
+.section-num {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; flex-shrink: 0;
+}
+.n1 { background: #FBEAF0; color: #72243E; }
+.n2 { background: #E6F1FB; color: #0C447C; }
+.n3 { background: #EAF3DE; color: #27500A; }
+.n4 { background: #FAEEDA; color: #633806; }
+.n5 { background: #EEEDFE; color: #3C3489; }
+.n6 { background: #E1F5EE; color: #0F6E56; }
+.n7 { background: #FAECE7; color: #993C1D; }
+.section-title { font-size: 14px; font-weight: 600; color: #111; flex: 1; }
+.section-badge { font-size: 10px; color: #888; background: #f0efeb; padding: 3px 8px; border-radius: 10px; white-space: nowrap; }
+.chevron { font-size: 10px; color: #aaa; transition: transform 0.25s; flex-shrink: 0; }
+.chevron.open { transform: rotate(180deg); }
+.section-body { padding: 0 16px 16px; display: none; }
+.section-body.open { display: block; }
+.phase-header { background: #f0efeb; border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; font-size: 12px; color: #555; line-height: 1.6; }
+.phase-header strong { color: #111; font-size: 13px; display: block; margin-bottom: 4px; }
+.step { border-left: 2px solid #e8e6e0; padding: 8px 0 8px 14px; margin-bottom: 12px; }
+.step:last-child { margin-bottom: 0; }
+.step-label { font-size: 10px; font-weight: 600; color: #888; margin-bottom: 5px; letter-spacing: 0.04em; }
+.step-content { font-size: 13px; color: #222; line-height: 1.65; }
+.script-box { background: #f8f7f3; border-radius: 10px; padding: 12px 14px; margin-top: 8px; }
+.script-label { font-size: 10px; font-weight: 600; color: #aaa; margin-bottom: 8px; letter-spacing: 0.04em; display: flex; align-items: center; justify-content: space-between; }
+.copy-inline-btn { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 6px; border: 0.5px solid #ccc; background: #fff; color: #555; cursor: pointer; font-family: inherit; }
+.copy-inline-btn.done { color: #3B6D11; border-color: #3B6D11; }
+.tip { background: #f0f6ff; border-radius: 10px; padding: 10px 12px; margin-top: 8px; font-size: 12px; color: #1a3a60; line-height: 1.6; }
+.tip-label { font-size: 10px; font-weight: 600; color: #185FA5; margin-bottom: 4px; }
+.warn { background: #FFF7ED; border-radius: 10px; padding: 10px 12px; margin-top: 8px; font-size: 12px; color: #7c4a00; line-height: 1.6; }
+.warn-label { font-size: 10px; font-weight: 600; color: #854F0B; margin-bottom: 4px; }
+.check-list { list-style: none; }
+.check-list li { font-size: 13px; color: #222; padding: 7px 0; border-bottom: 0.5px solid #eeede8; display: flex; align-items: flex-start; gap: 10px; line-height: 1.55; }
+.check-list li:last-child { border-bottom: none; }
+.check-list li::before { content: ""; width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #ccc; flex-shrink: 0; margin-top: 1px; }
+.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.metric-card { background: #f8f7f3; border-radius: 10px; padding: 10px 12px; }
+.metric-label { font-size: 11px; color: #888; }
+.metric-value { font-size: 20px; font-weight: 600; color: #111; margin-top: 2px; }
+.ng-list { list-style: none; }
+.ng-list li { font-size: 13px; color: #222; padding: 7px 0; border-bottom: 0.5px solid #eeede8; display: flex; gap: 10px; align-items: flex-start; line-height: 1.55; }
+.ng-list li:last-child { border-bottom: none; }
+.ng-icon { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: #FCEBEB; color: #A32D2D; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.divider { height: 0.5px; background: #eeede8; margin: 12px 0; }
+.url-box { background: #f8f7f3; border-radius: 8px; padding: 10px 12px; margin-top: 8px; font-size: 11px; color: #185FA5; word-break: break-all; line-height: 1.6; }
+.url-label { font-size: 10px; font-weight: 600; color: #aaa; margin-bottom: 5px; }
+.merit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.merit-card { background: #f8f7f3; border: 0.5px solid #e8e6e0; border-radius: 12px; padding: 12px 12px 10px; display: flex; flex-direction: column; gap: 5px; }
+.merit-icon { font-size: 18px; line-height: 1; }
+.merit-title { font-size: 12px; font-weight: 600; color: #111; line-height: 1.4; }
+.merit-desc { font-size: 11px; color: #888; line-height: 1.5; }
+.tmpl-tabs { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+.tmpl-tab { font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 20px; border: 0.5px solid #d0cfc8; background: #f5f4f0; color: #888; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.tmpl-tab.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.tmpl-panel { display: none; }
+.tmpl-panel.active { display: block; }
+.tmpl-meta { font-size: 11px; color: #888; background: #f8f7f3; border-radius: 8px; padding: 7px 10px; margin-bottom: 8px; line-height: 1.55; }
+.tmpl-body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; font-size: 13px; color: #222; line-height: 1.85; white-space: pre-wrap; word-break: break-word; }
+.level-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+.level-card { border-radius: 10px; padding: 10px 8px; text-align: center; }
+.lv1 { background: #EAF3DE; } .lv2 { background: #E6F1FB; } .lv3 { background: #FAEEDA; }
+.level-name { font-size: 10px; font-weight: 600; color: #555; margin-bottom: 3px; }
+.level-val { font-size: 16px; font-weight: 700; color: #111; }
+.level-unit { font-size: 10px; color: #888; margin-top: 1px; }
+.contract-points { list-style: none; margin-top: 6px; }
+.contract-points li { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 0.5px solid #eeede8; }
+.contract-points li:last-child { border-bottom: none; }
+.cp-icon { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: #EAF3DE; color: #27500A; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-top: 1px; }
+.cp-text strong { color: #111; display: block; font-size: 12px; margin-bottom: 2px; }
+.cp-text span { font-size: 12px; color: #555; line-height: 1.55; }
+.curr-phase { border-radius: 10px; padding: 10px 14px; margin-bottom: 10px; }
+.curr-blue { background: #E6F1FB; } .curr-green { background: #EAF3DE; } .curr-amber { background: #FAEEDA; }
+.curr-phase-title { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 6px; }
+.curr-list { list-style: none; }
+.curr-list li { font-size: 12px; color: #333; padding: 4px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06); line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+.curr-list li:last-child { border-bottom: none; }
+.curr-list li::before { content: "▶"; font-size: 9px; color: #aaa; margin-top: 3px; flex-shrink: 0; }
+.battle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+.battle-tag { background: #f8f7f3; border: 0.5px solid #e0ddd6; border-radius: 8px; padding: 8px 10px; font-size: 11px; color: #333; line-height: 1.5; }
+.battle-tag-purpose { font-size: 10px; color: #888; margin-top: 2px; }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: #f0efeb; color: #444; border: 0.5px solid #dddbd3; }
+.goal-banner { background: #1a1a1a; border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+.goal-banner-title { font-size: 11px; color: #888; margin-bottom: 4px; }
+.goal-banner-val { font-size: 18px; font-weight: 700; color: #fff; }
+.goal-banner-sub { font-size: 11px; color: #666; margin-top: 3px; }
+.exp-card { background: #f8f7f3; border: 0.5px solid #e8e6e0; border-radius: 12px; padding: 12px 14px; margin-top: 8px; }
+.exp-card-header { font-size: 11px; font-weight: 600; color: #888; margin-bottom: 6px; }
+.exp-card-content { font-size: 12px; color: #333; line-height: 1.7; }
+.emote-step { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 0.5px solid #eeede8; }
+.emote-step:last-child { border-bottom: none; }
+.emote-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.emote-step-body strong { display: block; font-size: 12px; margin-bottom: 2px; color: #111; }
+.emote-step-body span { font-size: 12px; color: #555; }
+.footer { text-align: center; padding: 20px; color: #aaa; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="guide">
+
+  <div class="header">
+    <div class="logo">HUMEDIA japan.</div>
+    <h1>ライバーオンボーディングガイド</h1>
+    <p>スカウト〜1Mダイヤ達成まで 完全マニュアル</p>
+  </div>
+
+  <div class="toc">
+    <div class="toc-group">
+      <div class="toc-group-label">採用フロー</div>
+      <div class="toc-row">
+        <button class="toc-btn" onclick="openSection(0)">① 勧誘</button>
+        <button class="toc-btn" onclick="openSection(1)">② 日程調整</button>
+        <button class="toc-btn" onclick="openSection(2)">③ 面談対応</button>
+        <button class="toc-btn" onclick="openSection(3)">④ ライバー登録</button>
+      </div>
+    </div>
+    <div class="toc-group" style="margin-top:10px;">
+      <div class="toc-group-label">カリキュラム</div>
+      <div class="toc-row">
+        <button class="toc-btn" onclick="openSection(4)">新人 1〜3ヶ月</button>
+        <button class="toc-btn" onclick="openSection(5)">中堅 4〜6ヶ月</button>
+        <button class="toc-btn" onclick="openSection(6)">画像・エモート</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 1: 勧誘 ===== -->
+  <div class="section" id="sec0">
+    <div class="section-header" onclick="toggle(0)">
+      <div class="section-num n1">1</div>
+      <div class="section-title">勧誘</div>
+      <div class="section-badge">スカウト前</div>
+      <div class="chevron open" id="chev0">▼</div>
+    </div>
+    <div class="section-body open" id="body0">
+      <div class="step">
+        <div class="step-label">事務所所属のメリット</div>
+        <div class="merit-grid">
+          <div class="merit-card"><div class="merit-icon">📱</div><div class="merit-title">ライブ配信ボタン付与</div><div class="merit-desc">入所後すぐ・申請不要</div></div>
+          <div class="merit-card"><div class="merit-icon">🏅</div><div class="merit-title">公式クリエイター登録</div><div class="merit-desc">TikTok公式としてサポート</div></div>
+          <div class="merit-card"><div class="merit-icon">📈</div><div class="merit-title">おすすめフィード</div><div class="merit-desc">乗りやすい環境を整備済み</div></div>
+          <div class="merit-card"><div class="merit-icon">💰</div><div class="merit-title">還元率100%</div><div class="merit-desc">手数料ゼロ・全額あなたへ</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="step">
+        <div class="step-label">勧誘LINEテンプレート（配信未経験者向け）</div>
+        <div class="step-content" style="margin-bottom:10px;">
+          相手のタイプに合わせてパターンを選んでコピーして送ろう。<br>
+          <span style="color:#888;font-size:12px;">（会社名または事務所名）の部分だけ差し替えればOK</span>
+        </div>
+        <div class="tmpl-tabs">
+          <button class="tmpl-tab active" onclick="switchTmpl(0)">A やさしい</button>
+          <button class="tmpl-tab" onclick="switchTmpl(1)">B 未来想像</button>
+          <button class="tmpl-tab" onclick="switchTmpl(2)">C 寄り添い</button>
+          <button class="tmpl-tab" onclick="switchTmpl(3)">D 逆張り</button>
+          <button class="tmpl-tab" onclick="switchTmpl(4)">E 短文</button>
+        </div>
+        <div class="tmpl-panel active" id="tmpl0">
+          <div class="tmpl-meta">初回接触の定番。不安を先に受け止め、背中を押すタイプ</div>
+          <div class="script-box"><div class="script-label">テンプレートA<button class="copy-inline-btn" onclick="copyTmpl('t0',this)">コピー</button></div>
+          <pre class="tmpl-body" id="t0">突然のご連絡、失礼します🙇‍♀️
+（会社名または事務所名）です。
+
+〇〇さんのことが気になって、ご連絡しました！
+
+突然ですが、TikTok LIVEって
+やってみたいな…と思ったことはありますか？
+
+「でも配信なんてやったことないし…」
+「何から始めればいいか分からない」
+
+そう思っている方にこそ、
+ぜひ知ってほしいことがあります。
+
+私たちの事務所では
+▶ ライブ配信ボタンをすぐに付与します
+▶ TikTok公式クリエイターとして登録できます
+▶ おすすめフィードに乗りやすい環境があります
+▶ 収益は100%全部あなたのもの
+
+「未経験だから…」はむしろ、
+最初から正しい方法で始められるチャンスです✨
+
+まずは話を聞くだけでも大丈夫。
+気軽にご返信ください😊</pre></div>
+        </div>
+        <div class="tmpl-panel" id="tmpl1">
+          <div class="tmpl-meta">夢や変化を求めている人に。3ヶ月後の未来をイメージさせる</div>
+          <div class="script-box"><div class="script-label">テンプレートB<button class="copy-inline-btn" onclick="copyTmpl('t1',this)">コピー</button></div>
+          <pre class="tmpl-body" id="t1">〇〇さん、はじめまして✨
+（会社名または事務所名）です。
+
+少しだけ、想像してみてください。
+
+3ヶ月後、スマホ1台で
+自分の好きなことを配信しながら
+収益が入ってくる生活。
+
+「でも私、配信ゼロ回なんですけど…」
+
+それで大丈夫です。むしろ、それがいい。
+
+私たちは未経験の方を
+一から一緒に育てることが得意な事務所です。
+
+✅ ライブ配信ボタン → 入所後すぐ付与
+✅ TikTok公式クリエイター登録 → しっかりサポート
+✅ おすすめフィードに乗る環境 → 整っています
+✅ 収益還元100% → 稼いだ分は全部あなたへ
+
+何かを始めるのに、
+「準備ができてから」は一生来ません。
+
+10分だけ話しませんか？
+人生変わるきっかけになるかもしれません🔥</pre></div>
+        </div>
+        <div class="tmpl-panel" id="tmpl2">
+          <div class="tmpl-meta">不安が強く、人を信頼してから動くタイプ向け</div>
+          <div class="script-box"><div class="script-label">テンプレートC<button class="copy-inline-btn" onclick="copyTmpl('t2',this)">コピー</button></div>
+          <pre class="tmpl-body" id="t2">〇〇さん、突然すみません！
+（会社名または事務所名）です🌸
+
+実は、〇〇さんに声をかけたくて
+ご連絡させていただきました。
+
+TikTok LIVEを始めてみたい気持ち、
+少しでもあったりしませんか？
+
+「配信したことないから不安」
+「機材とか何が必要かも分からない」
+
+安心してください。全部一緒にやります。
+
+うちの事務所では
+📱 ライブ配信ボタン → 入所後すぐ使えます
+🏅 公式クリエイター登録 → サポートします
+📈 おすすめフィードの導線 → 仕組みを整えています
+💰 収益は100%あなたへ → 手数料は一切なし
+
+初めての配信、緊張するのは当然です。
+でも、ひとりじゃないから大丈夫。
+
+まずは気軽にお話しましょう😊
+「詳しく聞きたい」だけ送ってくれれば十分です！</pre></div>
+        </div>
+        <div class="tmpl-panel" id="tmpl3">
+          <div class="tmpl-meta">個性的で読み飽きた勧誘文を避けるタイプ向け</div>
+          <div class="script-box"><div class="script-label">テンプレートD<button class="copy-inline-btn" onclick="copyTmpl('t3',this)">コピー</button></div>
+          <pre class="tmpl-body" id="t3">〇〇さん、はじめまして。
+（会社名または事務所名）です。
+
+少し変なことを言いますが、
+
+ライブ配信、したことなくて正解かもしれません。
+
+独学で始めると、最初に覚えることが多すぎて
+間違ったやり方が染み付いてしまう。
+
+でも最初から正しい環境で始めれば、
+遠回りせずにちゃんと稼げる場所にたどり着けます。
+
+私たちの事務所では
+▶ 配信ボタンをすぐ付与（ひとりで申請不要）
+▶ TikTok公式クリエイター登録を一緒に進める
+▶ おすすめフィードに乗りやすい環境が整っている
+▶ 収益は100%全額あなたへ（引かれるものなし）
+
+「まだ何もしていないから…」
+その状態が、実は一番伸びしろがあります。
+
+よかったら、話だけ聞いてみませんか？✨</pre></div>
+        </div>
+        <div class="tmpl-panel" id="tmpl4">
+          <div class="tmpl-meta">長文を読まない層向け。返信後にA〜Dで補足する2段階設計</div>
+          <div class="script-box"><div class="script-label">テンプレートE<button class="copy-inline-btn" onclick="copyTmpl('t4',this)">コピー</button></div>
+          <pre class="tmpl-body" id="t4">〇〇さん、突然すみません🙏
+（会社名または事務所名）です。
+
+〇〇さん、TikTok LIVEに興味はありますか？
+
+配信未経験でも大丈夫です。
+むしろ、そこからのスタートを
+全力でサポートする事務所があります。
+
+もし少しでも気になったら、
+「詳しく聞きたい」だけ送ってください！
+
+詳細お伝えします✨</pre></div>
+        </div>
+        <div class="tip" style="margin-top:10px;">
+          <div class="tip-label">パターン選び方</div>
+          迷ったら<strong>A</strong>。前向きなら<strong>B</strong>。不安強そうなら<strong>C</strong>。個性的な方には<strong>D</strong>。まず反応ほしいなら<strong>E</strong>→返信来たらA〜Dを補足。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2: 日程調整 ===== -->
+  <div class="section" id="sec1">
+    <div class="section-header" onclick="toggle(1)">
+      <div class="section-num n2">2</div>
+      <div class="section-title">日程調整・事前準備</div>
+      <div class="section-badge">返信後すぐ</div>
+      <div class="chevron" id="chev1">▼</div>
+    </div>
+    <div class="section-body" id="body1">
+      <div class="step">
+        <div class="step-label">LINEグループ作成後 — 最初のメッセージ</div>
+        <div class="script-box"><div class="script-label">テンプレート（コピーして使用）<button class="copy-inline-btn" onclick="copyTmpl('ts1',this)">コピー</button></div>
+        <pre class="tmpl-body" id="ts1">はじめまして！
+（会社名または事務所名）です。
+
+配信についてこちらのグループLINEのビデオ通話にてお話しが出来ればと思うのですが、
+
+○日 15:00〜20:00
+○日 19:00〜20:00
+○日 19:00〜20:00
+
+で対応可能なお時間はありますでしょうか？
+所要時間は１時間になりますのでよろしくお願いします☺️</pre></div>
+        <div class="tip"><div class="tip-label">ポイント</div>「面談」でなく「お話し」と表現。日程はこちらから複数提案。なるべく<strong>3日以内</strong>の日程で提案する。</div>
+      </div>
+      <div class="step">
+        <div class="step-label">日程確定後 — 確認メッセージ</div>
+        <div class="script-box"><div class="script-label">テンプレート<button class="copy-inline-btn" onclick="copyTmpl('ts2',this)">コピー</button></div>
+        <pre class="tmpl-body" id="ts2">当日はビデオ通話になりますのでお顔が見える状態で対応お願いします☺️
+
+お話しできることを楽しみにしております！
+わからないことがあればお気軽にご質問ください。</pre></div>
+        <div class="tip"><div class="tip-label">重要</div>必ず<strong>顔出し</strong>をお願いする。当日の朝に「今日はよろしくお願いいたします☺️」とLINEを入れてドタキャン防止。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3: 面談対応 ===== -->
+  <div class="section" id="sec2">
+    <div class="section-header" onclick="toggle(2)">
+      <div class="section-num n3">3</div>
+      <div class="section-title">面談対応</div>
+      <div class="section-badge">所要時間 60分</div>
+      <div class="chevron" id="chev2">▼</div>
+    </div>
+    <div class="section-body" id="body2">
+      <div class="metrics">
+        <div class="metric-card"><div class="metric-label">自己紹介</div><div class="metric-value">10分</div></div>
+        <div class="metric-card"><div class="metric-label">配信説明</div><div class="metric-value">15分</div></div>
+        <div class="metric-card"><div class="metric-label">登録作業</div><div class="metric-value">25分</div></div>
+        <div class="metric-card"><div class="metric-label">目標設定</div><div class="metric-value">10分</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="step">
+        <div class="step-label">① 自己紹介 — 10分</div>
+        <ul class="check-list" style="margin-top:8px;">
+          <li>現在の仕事 → 配信時間の確保ができそうか</li>
+          <li>TikTok配信の視聴経験・理解度を確認</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-label">② ライブ配信説明 — 15分</div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">説明① 配信時間の目標</div>
+          最低ライン：月18日・50時間。おすすめフィード露出を上げるにはレベルが大事。
+          <div class="level-grid" style="margin-top:8px;">
+            <div class="level-card lv1"><div class="level-name">レベル1</div><div class="level-val">80h</div><div class="level-unit">以上</div></div>
+            <div class="level-card lv2"><div class="level-name">レベル2</div><div class="level-val">100h</div><div class="level-unit">以上</div></div>
+            <div class="level-card lv3"><div class="level-name">レベル3</div><div class="level-val">120h</div><div class="level-unit">以上</div></div>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:#1a3a60;">▶ 達成した<strong>翌月</strong>のおすすめフィード導入率が上がる</div>
+        </div>
+        <div class="warn" style="margin-top:8px;"><div class="warn-label">⚡ 配信1時間ルール — 必ず伝えること</div>配信開始後<strong>1時間以降</strong>にギフターレベルの高いリスナーが流れてくる仕組み。<strong>「1時間からがスタートライン」</strong>と伝える。</div>
+        <div class="tip" style="margin-top:8px;"><div class="tip-label">説明② 報酬の仕組み</div>配信終了の瞬間にウォレット着金。手数料ゼロで<strong>報酬100%</strong>引き出し可能。銀行登録の案内も忘れずに。</div>
+        <div class="tip" style="margin-top:8px;"><div class="tip-label">説明③ HUMEDIA japan. の特徴</div>TikTok直接提携の<strong>１次事務所</strong>。報酬完全100%。新人ライバー同士のグループLINEあり。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 4: ライバー登録 ===== -->
+  <div class="section" id="sec3">
+    <div class="section-header" onclick="toggle(3)">
+      <div class="section-num n4">4</div>
+      <div class="section-title">ライバー登録作業</div>
+      <div class="section-badge">所要時間 25分</div>
+      <div class="chevron" id="chev3">▼</div>
+    </div>
+    <div class="section-body" id="body3">
+      <div class="step">
+        <div class="step-label">ステップ① 契約書の簡易説明</div>
+        <div class="script-box" style="margin-top:8px;"><div class="script-label">LINEで契約書を送る場合（そのままコピーして送ってOK）<button class="copy-inline-btn" onclick="copyTmpl('tc1',this)">コピー</button></div>
+        <pre class="tmpl-body" id="tc1">契約書のフォームをお送りします📋
+
+難しい内容は書いていないので安心してください😊
+普通に配信していれば全く問題ない内容だけです。
+
+もちろんしっかり読んでいただいてもOKです。
+入力が終わったら声をかけてください！
+
+▼ 契約フォームはこちら
+https://forms.gle/nV5fWypaSW9TZL4Y8
+
+※ブラウザで開いてください
+（アプリ内で開く場合は右下の「…」→「ブラウザで開く」）</pre></div>
+        <div class="divider"></div>
+        <div class="step-label" style="margin-bottom:8px;">契約書 重要事項ポイント（ライバーへの説明用）</div>
+        <ul class="contract-points">
+          <li><div class="cp-icon">✓</div><div class="cp-text"><strong>雇用ではなく業務委託</strong><span>自分のペースで配信できる個人事業主のような形。シフト・出退勤の義務なし。</span></div></li>
+          <li><div class="cp-icon">✓</div><div class="cp-text"><strong>収益は100%あなたのもの</strong><span>プラットフォーム手数料を除く全額がライバーへ。事務所の追加手数料なし。</span></div></li>
+          <li><div class="cp-icon">✓</div><div class="cp-text"><strong>月末締め・翌月末払い</strong><span>毎月末に集計し翌月末に振込。口座情報はフォームで登録。</span></div></li>
+          <li><div class="cp-icon">✓</div><div class="cp-text"><strong>契約期間は1年間・自動更新</strong><span>辞めたい場合は30日前に連絡すればOK。</span></div></li>
+          <li><div class="cp-icon">✓</div><div class="cp-text"><strong>配信内容のルール</strong><span>TikTok規約に沿えばOK。暴力・性的・政治的な発言は禁止（普通に配信すれば問題なし）。</span></div></li>
+          <li><div class="cp-icon">✓</div><div class="cp-text"><strong>他事務所への移籍</strong><span>退所後6ヶ月間は同プラットフォームで他事務所への移籍・直接案件受託はNG（トラブル防止のため）。</span></div></li>
+          <li><div class="cp-icon">✓</div><div class="cp-text"><strong>秘密保持義務</strong><span>他ライバーの情報・事務所ノウハウ・報酬率などは外部に漏らさないこと。退所後3年間も同様。</span></div></li>
+        </ul>
+        <div class="tip" style="margin-top:10px;"><div class="tip-label">伝え方のポイント</div>「普通に配信していれば全部大丈夫な内容です」と一言添える。質問が来たら「一緒に確認しますよ」と伝えてフォームへ進んでもらう。</div>
+      </div>
+      <div class="step">
+        <div class="step-label">ステップ② 契約書記入</div>
+        <div class="url-box"><div class="url-label">契約フォームURL（コピー用）</div>https://forms.gle/nV5fWypaSW9TZL4Y8</div>
+        <div class="warn"><div class="warn-label">⚠ 注意</div>Googleログインが必要なため右下の「…」→「ブラウザで開く」で誘導する</div>
+        <div class="tip"><div class="tip-label">回答確認URL（管理者のみ）</div><span style="font-size:11px;word-break:break-all;">https://docs.google.com/spreadsheets/d/1uMXJ0Xn9b-3YJB0Ptjc_Dfq7eqci2wurEVEYVXbMVc/</span></div>
+      </div>
+      <div class="step">
+        <div class="step-label">ステップ③ TikTokシステム登録（バックステージ）</div>
+        <div class="url-box"><div class="url-label">バックステージURL（コピー用）</div>http://www.tiktok.com/t/ZSkVem7Rq/</div>
+        <div class="warn"><div class="warn-label">⚠ 注意</div>TikTokアプリを<strong>閉じた状態</strong>でURLをクリックするよう先に伝える</div>
+        <ul class="check-list" style="margin-top:10px;">
+          <li>「クリエイターをスカウト」→「クリエイターを招待」をクリック</li>
+          <li>TikTok IDを入力（@はつけない）</li>
+          <li>管理関係開始日：当日　管理期間：3年</li>
+          <li>招待コードをバックステージから取得して入力</li>
+          <li>候補者側でメッセージを確認→「承認」を押してもらう</li>
+          <li>画面共有で登録完了を確認する</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-label">ステップ④ テスト配信の日程調整</div>
+        <div class="step-content">仮登録完了後、正式登録のため<strong>30分間のテスト配信</strong>日程を決める。</div>
+        <div class="tip"><div class="tip-label">一言添える</div>「テスト配信を始める前にグループLINEに一本入れてくれると助かります！」</div>
+      </div>
+      <div class="divider"></div>
+      <div class="step">
+        <div class="step-label">配信NG事項の説明</div>
+        <ul class="ng-list" style="margin-top:6px;">
+          <li><div class="ng-icon">NG</div>露出・性的な発言（谷間の露出、性的なワード等）</li>
+          <li><div class="ng-icon">NG</div>暴力的な発言（「死ね」「殺す」「自殺」等）→ BAN対象</li>
+          <li><div class="ng-icon">NG</div>政治的な発言</li>
+          <li><div class="ng-icon">NG</div>配信中のタバコ・煙・湯気が映る</li>
+          <li><div class="ng-icon">NG</div>お酒のラベルが映る</li>
+          <li><div class="ng-icon">NG</div>BGMの歌詞に過激なワードが含まれる（BAN判定あり）</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="step">
+        <div class="step-label">固定配信時間・目標ダイヤの設定</div>
+        <div class="step-content"><strong>固定配信時間を決めてLINEに固定</strong>する。月収目標から必要ダイヤ数を計算して伝える。</div>
+        <div class="tip"><div class="tip-label">トーク例</div>「○○さんが月収○万円欲しいとなると○○ダイヤ必要です。毎日○○ダイヤ獲得していければ達成できるので、ここを目指してやっていきましょう！」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 5: 新人カリキュラム ===== -->
+  <div class="section" id="sec4">
+    <div class="section-header" onclick="toggle(4)">
+      <div class="section-num n5">5</div>
+      <div class="section-title">新人カリキュラム</div>
+      <div class="section-badge">1〜3ヶ月目</div>
+      <div class="chevron" id="chev4">▼</div>
+    </div>
+    <div class="section-body" id="body4">
+      <div class="phase-header">
+        <strong>📌 新人期の目標ライン</strong>
+        月18日以上・40時間（レベル1〜2）／15万ダイヤ／Cリーグ以上／登録1〜2ヶ月目で登竜門参戦
+      </div>
+
+      <div class="step">
+        <div class="step-label">1ヶ月目（1週目）— 配信基礎学習期間</div>
+        <div class="tip">
+          <div class="tip-label">学習タスク</div>
+          TikTok Studioの初級・中級テストに合格。公式規約を暗記（BAN防止）。新人オープンチャットでマネージャーが解決策を発信する。
+        </div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">毎日1時間半以上の配信を習慣化</div>
+          毎日同じ時間に配信 → 「〇時は〜ちゃんの時間」として常連化につながる。
+        </div>
+        <div class="step-label" style="margin-top:12px;margin-bottom:8px;">プロフィール整備チェックリスト</div>
+        <ul class="check-list">
+          <li>① 名前・ファンマークを設定</li>
+          <li>② プロフィール写真（明るい・自分が中心）</li>
+          <li>③ プロフィール文章（開始日・目標・配信時間・住み → ツッコミどころを増やす）</li>
+          <li>④「私について」を設定（枠入室時に全員に表示されるメッセージ）</li>
+          <li>⑤ 配信タイトルを「初心者ライバー」「配信○○日目」にする</li>
+          <li>⑥ 10秒の自己紹介キャッチフレーズを作る（コラボ・初見用）</li>
+        </ul>
+        <div class="tip" style="margin-top:10px;">
+          <div class="tip-label">「私について」おすすめ文例</div>
+          通常時：〇月〇日〜配信スタート！楽しい枠づくり中！／〇〇県産、天然娘、気軽に話しかけてね！／覗いたなら止まってね？<br><br>
+          企画時：土日は企画配信！NG企画なし！／〇月〇日〜〇〇イベント参戦！／〇月〇日〜〇時〜予約バトル！
+        </div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">「初心者」タイトルが効果的な理由</div>
+          新規獲得につながる／おすすめ流入のリスナーが入室しやすい／初心者を応援したいリスナー層が一定数いる（ジャニーズJr.効果）
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">1ヶ月目（2〜4週目）— ファン獲得配信</div>
+        <div class="step-content">ハートミー人数<strong>50人以上</strong>を目指す</div>
+        <ul class="check-list" style="margin-top:8px;">
+          <li>毎日配信 + 定期的なハイライト・ショート動画投稿</li>
+          <li>毎配信2回はバトルに行く（名前を売る・次のバトル呼び込みストック）</li>
+          <li>コラボ相手のリスナーに自分を知ってもらう</li>
+        </ul>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">耐久配信アイデア</div>
+          「1万ダイヤ集めるまで終われません企画」「都道府県ハートミー企画」など。飽き性の方は逆効果になる場合もあるので配信者のタイプに合わせて選択する。
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">2ヶ月目 — 初イベント・登竜門参戦</div>
+        <div class="curr-phase curr-blue" style="margin-top:8px;">
+          <div class="curr-phase-title">🏆 登竜門イベントとは</div>
+          <ul class="curr-list">
+            <li>初級クリエイター向け（前月獲得ダイヤ8万以下）</li>
+            <li>5チームに分かれて1週間参戦</li>
+            <li>ベスト10入りでプライズ獲得</li>
+            <li>初心者を育てたい層・高額ギフターも注目するイベント</li>
+            <li>コラボ・バトルで新規リスナー獲得につながる</li>
+          </ul>
+        </div>
+        <div class="step-label" style="margin-top:12px;margin-bottom:8px;">イベント前 ライバー準備リスト</div>
+        <ul class="check-list">
+          <li>目標設定と配信スケジュール確認・告知</li>
+          <li>イベントルールの把握</li>
+          <li>背景透過した画像（イベントギフト添付）を作成</li>
+          <li>「私について」「プロフ文」の変更</li>
+          <li>リスナーさんへの事前説明</li>
+          <li>ボーナスタイムに予約or待ち合わせバトルを組む</li>
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">3ヶ月目① — オープンチャット開設</div>
+        <div class="step-content">スーパーファン（サブスク）を作成し、固定ファンをオープンチャットへ誘導する</div>
+        <div class="tag-cloud">
+          <span class="tag">配信スケジュール共有</span>
+          <span class="tag">イベント告知</span>
+          <span class="tag">予約バトル告知</span>
+          <span class="tag">マイイベ告知</span>
+          <span class="tag">貢献リスナーをメンションで褒める</span>
+          <span class="tag">思いを伝える</span>
+        </div>
+        <div class="tip" style="margin-top:10px;">
+          <div class="tip-label">予約バトルの告知タイミング</div>
+          1週間前に告知がベスト。3日前からは「配信タイトル」「私について」も変更する。
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">3ヶ月目② — 予約バトル実施</div>
+        <div class="step-content">3ヶ月の集大成として挑む。勝っても負けてもその後に活かせるストーリーが生まれる。</div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">予約終わりにやること</div>
+          リスナーさんへのお礼DM／ストーリーにて表彰／予約バトルの画面収録を投稿に残す
+        </div>
+        <div class="warn" style="margin-top:8px;">
+          <div class="warn-label">複数回配信する場合</div>
+          洋服・化粧・画角・部屋の明るさ等を変えると尚良い。
+        </div>
+      </div>
+
+      <div class="goal-banner">
+        <div class="goal-banner-title">3ヶ月カリキュラム修了時の目安</div>
+        <div class="goal-banner-val">月20万円程度（20K〜30万ダイヤ）</div>
+        <div class="goal-banner-sub">時給換算：約4,000円</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">日報（PDCA）の活用</div>
+        <div class="tip" style="margin-top:6px;">
+          <div class="tip-label">大事なのは「学習」「実践」「振り返り」</div>
+          MTG前にライバー自身が週目標・各日ダイヤ数・月目標進捗を記録して送付する。MGだけが管理するのではなく<strong>ライバーも数字を見る習慣</strong>をつける。
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 6: 中堅カリキュラム ===== -->
+  <div class="section" id="sec5">
+    <div class="section-header" onclick="toggle(5)">
+      <div class="section-num n6">6</div>
+      <div class="section-title">中堅カリキュラム</div>
+      <div class="section-badge">4〜6ヶ月目</div>
+      <div class="chevron" id="chev5">▼</div>
+    </div>
+    <div class="section-body" id="body5">
+      <div class="phase-header">
+        <strong>📌 中堅期の目標ライン</strong>
+        月20日・100時間以上（レベル3以上）／獲得ダイヤ 50万〜100万／Bリーグ以上／2〜3ヶ月に1回公式イベントorマイイベ参加
+      </div>
+
+      <div class="step">
+        <div class="step-label">4ヶ月目（1週目）— 目標設定と共有時間</div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">目標設定の進め方</div>
+          先月の動き・各週の実績から分析。事務所のダイヤ数を押しつけるのではなく「具体的アクションプラン」→「予想ダイヤ」→イメージを沸かせる流れで進める。
+        </div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">リスナーへの共有ポイント</div>
+          配信スケジュール・イベント参加の告知をする。アクションプランに「なぜそうするのか」の理由と「リスナーにどう動いてほしいか」の役割リクエストまで伝えられるとベスト。
+        </div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">ギフトギャラリー全点灯を目指す</div>
+          なるべくバトルで埋める意識でライブゴールに設定する。
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">4ヶ月目（2〜4週目）— 安定した強者への定義</div>
+        <div class="step-content"><strong>バトル回数：1時間に2回以上が理想。リーグは必ず自分より上の配信者を選定。</strong></div>
+        <div class="step-label" style="margin-top:12px;margin-bottom:6px;">限定バトルアイデア一覧</div>
+        <div class="battle-grid">
+          <div class="battle-tag">メンレベ別バトル<div class="battle-tag-purpose">10以下・20以下・完全初見</div></div>
+          <div class="battle-tag">入室限定バトル<div class="battle-tag-purpose">→呼び込み力強化</div></div>
+          <div class="battle-tag">右上1K貢献抜きバトル<div class="battle-tag-purpose">→ネクスト貢献者発掘</div></div>
+          <div class="battle-tag">スコア1K抜きバトル<div class="battle-tag-purpose">→団結</div></div>
+          <div class="battle-tag">色別ギフト指定バトル<div class="battle-tag-purpose">→大小ギフトのおすすめ</div></div>
+          <div class="battle-tag">スコアピッタリバトル<div class="battle-tag-purpose">→団結＆戦略</div></div>
+          <div class="battle-tag">早食いバトル<div class="battle-tag-purpose">→エンタメ</div></div>
+        </div>
+        <div class="tip" style="margin-top:10px;">
+          <div class="tip-label">メンレベ強化の考え方</div>
+          1強では勝てない未来を見せる。ポイントを抑えたり貢献抜きバトルをしたりして<strong>メンレベ10以下を増やす</strong>ことを意識する。
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">5ヶ月目 — 戦略的マイイベ活用</div>
+        <div class="curr-phase curr-green" style="margin-top:8px;">
+          <div class="curr-phase-title">✅ マイイベで自分で考えられる状態が理想</div>
+          <ul class="curr-list">
+            <li>自分でイベント計画が立てられる</li>
+            <li>どの層を狙っているか把握できている</li>
+            <li>何時間で達成できるか見積もれる</li>
+            <li>獲得ダイヤ数の見込みを自分で計算できる</li>
+          </ul>
+        </div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">おすすめ企画①：ビンゴ企画</div>
+          トータルダイヤ100K程度になるよう設計。団結強化にも繋がる。1週間企画にすると週ダイヤが稼げてGOOD。
+        </div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">おすすめ企画②：タイマー企画（耐久できる人向け）</div>
+          指定ギフトに応じてタイマー（配信時間）が増減する企画。
+        </div>
+        <div class="exp-card">
+          <div class="exp-card-header">💡 おじキラー経験談（5ヶ月目・Bリーグ）154時間・1.45M</div>
+          <div class="exp-card-content">
+            強いギフター2人に頼り切って他が育たない悩み → 配信をしている理由・自分の思い・理想を伝え続けた。<br><br>
+            取り組み：外配信（沖縄旅行）、事務所イベ1vs3バトルで56万スコアのラスト追い上げ、配信時間の固定化、メンレベ10以下を増やして育てる意識、バトル音源の工夫（リスナーも滾る曲の選定）
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">6ヶ月目 — TikTokイベント挑戦</div>
+        <div class="curr-phase curr-amber" style="margin-top:8px;">
+          <div class="curr-phase-title">📅 おすすめ参戦タイミング</div>
+          <ul class="curr-list">
+            <li>月跨ぎ：前月ダイヤの追い上げ＋当月スタートダッシュに活用</li>
+            <li>中旬〜月末：前半でダイヤを積んでいれば総ダイヤ数がかなり伸びる</li>
+          </ul>
+        </div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">オープンチャット＆スパファンの活用</div>
+          ルール説明・作戦会議・目標共有・参加理由・特典などをオープンチャットで共有する。
+        </div>
+        <div class="step-label" style="margin-top:12px;margin-bottom:6px;">イベント前に準備するもの</div>
+        <div class="tag-cloud">
+          <span class="tag">イベント画像</span>
+          <span class="tag">説明動画</span>
+          <span class="tag">アイコンフレーム</span>
+          <span class="tag">エモート</span>
+        </div>
+        <div class="exp-card" style="margin-top:10px;">
+          <div class="exp-card-header">💡 おじキラー経験談（6ヶ月目・Aリーグ）182時間・1.31M</div>
+          <div class="exp-card-content">初イベントで地域リーグに参戦。リスナーが「枯れた宣言（もう他がいけません。誰か続いてください）」のSOSを出したことで続く人が増えた。枠の団結やギフティングを見て、これまで投げていなかった人が覚醒。イベント後も毎日1K以上投げてくれるようになった。</div>
+        </div>
+        <div class="exp-card" style="margin-top:8px;">
+          <div class="exp-card-header">💡 おじキラー経験談（4ヶ月目・Bリーグ）152時間・1.63M</div>
+          <div class="exp-card-content">生誕配信で日間17位・約730K（予約バトル2件）。マイイベでカニギフトweekを実施。リスナーがメンレベ・ギフレベを育てる「次の目標」を見つけ、生誕翌週も246K達成。リスナーに目標を与えることが常連の底上げにつながった。</div>
+        </div>
+      </div>
+
+      <div class="goal-banner">
+        <div class="goal-banner-title">6ヶ月カリキュラム修了時の目安</div>
+        <div class="goal-banner-val">月35万〜73万円（50K〜1Mダイヤ）</div>
+        <div class="goal-banner-sub">時給換算：約3,500〜6,500円</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 7: 画像・エモート作成 ===== -->
+  <div class="section" id="sec6">
+    <div class="section-header" onclick="toggle(6)">
+      <div class="section-num n7">7</div>
+      <div class="section-title">画像・エモート作成</div>
+      <div class="section-badge">PicsArt / GPT</div>
+      <div class="chevron" id="chev6">▼</div>
+    </div>
+    <div class="section-body" id="body6">
+
+      <div class="step">
+        <div class="step-label">背景透過（PicsArt）</div>
+        <div style="margin-top:6px;">
+          <div class="emote-step"><div class="emote-num">1</div><div class="emote-step-body"><strong>PicsArtを開く</strong></div></div>
+          <div class="emote-step"><div class="emote-num">2</div><div class="emote-step-body"><strong>下の「＋（作成）」を押す</strong></div></div>
+          <div class="emote-step"><div class="emote-num">3</div><div class="emote-step-body"><strong>「編集」を選ぶ</strong></div></div>
+          <div class="emote-step"><div class="emote-num">4</div><div class="emote-step-body"><strong>透過したい画像を選択</strong></div></div>
+          <div class="emote-step"><div class="emote-num">5</div><div class="emote-step-body"><strong>下のメニューから「カットアウト」を押す</strong></div></div>
+          <div class="emote-step"><div class="emote-num">6</div><div class="emote-step-body"><strong>「人物 / 自動選択」を選ぶ</strong></div></div>
+          <div class="emote-step"><div class="emote-num">7</div><div class="emote-step-body"><strong>不要な部分を消しゴムで調整</strong><span>細かいところはズームして消す</span></div></div>
+          <div class="emote-step"><div class="emote-num">8</div><div class="emote-step-body"><strong>保存 → PNG形式で保存</strong><span>PNGで保存すると背景が透明になる。TikTokアイコン・エモート素材に使える。</span></div></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">エモートの作り方（PicsArt）</div>
+        <div style="margin-top:6px;">
+          <div class="emote-step"><div class="emote-num">1</div><div class="emote-step-body"><strong>背景透過したキャラを用意する</strong></div></div>
+          <div class="emote-step"><div class="emote-num">2</div><div class="emote-step-body"><strong>PicsArt →「＋作成」</strong></div></div>
+          <div class="emote-step"><div class="emote-num">3</div><div class="emote-step-body"><strong>背景を白 or 透過に設定</strong></div></div>
+          <div class="emote-step"><div class="emote-num">4</div><div class="emote-step-body"><strong>キャラを追加</strong><span>「写真を追加」から選択</span></div></div>
+          <div class="emote-step"><div class="emote-num">5</div><div class="emote-step-body"><strong>文字入れ</strong><span>例：おはよう・ナイギフ・ありがとう・おやすみ</span></div></div>
+          <div class="emote-step"><div class="emote-num">6</div><div class="emote-step-body"><strong>エフェクト追加</strong><span>よく使うもの：キラキラ・炎・ハート・ネオン</span></div></div>
+          <div class="emote-step"><div class="emote-num">7</div><div class="emote-step-body"><strong>PNG保存</strong></div></div>
+        </div>
+        <div class="tip" style="margin-top:10px;">
+          <div class="tip-label">おすすめポーズ</div>
+          おはよう・おやすみ・指さし・敬礼・拍手・ありがとう
+        </div>
+        <div class="tip" style="margin-top:6px;">
+          <div class="tip-label">追加できる数</div>
+          一般：最大15個　／　スーパーファン会員：最大60個
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">イベント画像の作り方（PicsArt）</div>
+        <div style="margin-top:6px;">
+          <div class="emote-step"><div class="emote-num">1</div><div class="emote-step-body"><strong>「＋作成」</strong></div></div>
+          <div class="emote-step"><div class="emote-num">2</div><div class="emote-step-body"><strong>キャンバスサイズ：1080×1920（スマホ配信サイズ）</strong></div></div>
+          <div class="emote-step"><div class="emote-num">3</div><div class="emote-step-body"><strong>背景を入れる</strong><span>例：ネオン背景・バトル画面風・キラキラ</span></div></div>
+          <div class="emote-step"><div class="emote-num">4</div><div class="emote-step-body"><strong>イラスト追加</strong><span>ミニキャラ・ギフト・配信画面</span></div></div>
+          <div class="emote-step"><div class="emote-num">5</div><div class="emote-step-body"><strong>タイトル文字を入れる</strong><span>例：人気票限定バトル・ライバー交流会・早食いバトル・生誕祭</span></div></div>
+          <div class="emote-step"><div class="emote-num">6</div><div class="emote-step-body"><strong>情報を追加</strong><span>日程・ギフトルール・優勝者特典など</span></div></div>
+          <div class="emote-step"><div class="emote-num">7</div><div class="emote-step-body"><strong>装飾</strong><span>ネオン文字・キラキラ・炎・矢印</span></div></div>
+          <div class="emote-step"><div class="emote-num">8</div><div class="emote-step-body"><strong>JPG保存</strong></div></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-label">イベント画像の作り方（ChatGPT編）</div>
+        <div class="tip" style="margin-top:8px;">
+          <div class="tip-label">TikTok画像作成の3原則</div>
+          ① 文字は大きく（配信中でも見えるように）<br>
+          ② 色は3色以内（ごちゃごちゃ防止）<br>
+          ③ 重要な情報は中央に配置
+        </div>
+        <div class="step-content" style="margin-top:10px;font-size:13px;"><strong>1回目の指示に含める情報</strong></div>
+        <div class="tag-cloud" style="margin-top:6px;">
+          <span class="tag">タイトル</span>
+          <span class="tag">イベント詳細</span>
+          <span class="tag">画像の向き</span>
+          <span class="tag">画像イメージ</span>
+        </div>
+        <div class="tip" style="margin-top:10px;">
+          <div class="tip-label">2回目の指示で精度を上げる</div>
+          ・参考となるイラストの画像を提示する<br>
+          ・追加情報を共有する<br>
+          ・変更しない点も明記する（「ベースはかえず」など）
+        </div>
+        <div class="warn" style="margin-top:8px;">
+          <div class="warn-label">繰り返し練習あるのみ</div>
+          的確な指示文が作れるようになるまで繰り返すことが大事。1回目より2回目の方が必ず精度が上がる。
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">HUMEDIA japan. — マネージャー内部資料</div>
+</div>
+
+<script>
+var TOTAL = 7;
+function toggle(idx) {
+  var body = document.getElementById('body' + idx);
+  var chev = document.getElementById('chev' + idx);
+  body.classList.toggle('open', !body.classList.contains('open'));
+  chev.classList.toggle('open', !chev.classList.contains('open'));
+}
+function openSection(idx) {
+  for (var i = 0; i < TOTAL; i++) {
+    document.getElementById('body' + i).classList.remove('open');
+    document.getElementById('chev' + i).classList.remove('open');
+  }
+  document.getElementById('body' + idx).classList.add('open');
+  document.getElementById('chev' + idx).classList.add('open');
+  document.getElementById('sec' + idx).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function switchTmpl(idx) {
+  document.querySelectorAll('.tmpl-tab').forEach(function(t, i) { t.classList.toggle('active', i === idx); });
+  document.querySelectorAll('.tmpl-panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+}
+function copyTmpl(id, btn) {
+  var el = document.getElementById(id);
+  var text = (el.innerText || el.textContent).trim();
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = '✓ コピー済み';
+    btn.classList.add('done');
+    setTimeout(function() { btn.textContent = 'コピー'; btn.classList.remove('done'); }, 2000);
+  }).catch(function() {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ コピー済み';
+    btn.classList.add('done');
+    setTimeout(function() { btn.textContent = 'コピー'; btn.classList.remove('done'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
